@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+    <body>
+        <canvas width="600" height="600"></canvas>
+        <script>
+			// Get the current canvas on the document.
+			let canvas = document.querySelector('canvas');
+			let context = canvas.getContext('2d');
+
+			// Basic blue square.
+			// let num = Math.random() * (max - min) + min
+			// context.fillStyle = "#FF" + num.toString() + "FF"
+			// context.fillRect(100,100,400,400);
+
+			// Basic border.
+			// context.lineWidth = 10;
+			// context.beginPath();
+			// context.rect(100, 100, 400, 400);
+			// context.stroke();
+
+			// A circle.
+			// context.beginPath();
+			// context.arc(300, 300, 100, 0, Math.PI * 2);
+			// context.stroke();
+
+			// Random Procedural squares. ─────────────────────────────────────
+			const height = 60;
+			const width = 60;
+			const gap = 20;
+			let x, y;
+			
+			for (let i = 0; i < 5; i++) {
+			  for (let j = 0; j < 5; j++) {
+
+				x = 100 + (width + gap) * i;
+				y = 100 + (height + gap) * j;
+
+				context.beginPath();
+				context.rect(x, y, width, height);
+				context.stroke();
+
+				if (Math.random() > 0.5) {
+				  context.beginPath();
+				  context.rect(x + 8, y + 8, width - 16, height - 16);
+				  context.stroke();
+				}
+			  }
+			}
+
+			// Code concept examples. -----------------------------------------
+			// For over Array.
+			let array = ['1', '2', '3', '4', '5'];
+
+			for (let i = 0; i < array.length; i++) {
+			  console.log(array[i]);
+			}
+
+			// Pushing values to an array.
+			let years = [];
+			for (let i = 0; i < 10; i++) {
+			  years.push(2021 + i);
+			}
+			console.log(years);
+
+        </script>
+    </body>
+</html>

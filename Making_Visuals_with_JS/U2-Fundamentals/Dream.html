@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+    <style>* { margin: 0; padding: 0; } html, body { width: 100%; height: 100%; }</style>
+    <body>
+        <canvas style='position: absolute; left: 0px; top: 0px; z-index: -1; height: 100vh; width: 100vw'></canvas>
+        <script>
+          (async function() {
+          // Get the current canvas on the document.
+          let canvas = document.querySelector('canvas');
+          let context = canvas.getContext('2d');
+
+          for (let i = 0; i < canvas.width; i++) {
+            await sleep(Math.random());
+            context.beginPath();
+            context.rect(0, 0, 12 * i, 12 * i);
+            context.stroke();
+          }
+
+          // sleep Utility function. ────────────────────────────────────────────────────────────
+          function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+          }})();
+        </script>
+    </body>
+</html>

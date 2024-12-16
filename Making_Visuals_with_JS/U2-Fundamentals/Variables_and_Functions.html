@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+    <style>
+	  * { margin: 0; padding: 0; }
+	  html, body { width:100%; height:100%; }
+
+	  .canvas_container {
+		display: flex;
+		justify-content: center;
+		width: 100%;
+	  }
+    </style>
+
+    <body>
+        <div class="canvas_container">
+			<canvas class="responsive-canvas" height="400" width="400"></canvas>
+		</div>
+		  <script>
+			let canvas = document.querySelector('canvas');
+			let context = canvas.getContext('2d');
+
+			// context.fillStyle = 'blue';
+			// context.fillRect(100, 100, 400, 400);
+
+			// Draw Square.
+			context.lineWidth = 7;
+			context.beginPath();
+			context.rect(0, 0, 400, 400);
+			context.stroke();
+
+			context.lineWidth = 4;
+			for (i = 1; i <= 130; i += 3) {
+			  context.strokeStyle = `rgba(${200 - i}, ${200 - i}, ${200 - i}, 0.5)`
+			  context.beginPath();
+			  context.arc(200, 200, 13 + i * 2, 0, Math.PI * 2);
+			  context.stroke();
+			}
+
+			for (i = 1; i <= 18; i += 3) {
+			  context.lineWidth = i * 1.5;
+			  context.strokeStyle = `rgba(255, 0, 60, 1)`
+			  context.beginPath();
+			  context.arc(200, 200, 4 + i * 10, 0, Math.PI * 2);
+			  context.stroke();
+			}
+
+			// Draw Circle.
+			// context.beginPath();
+			// context.arc(300, 300, 172, 0, Math.PI * 2);
+			// context.stroke();
+
+			// let x = 5;
+			// let year = 2042;
+			// let nextYear = year + 1;
+
+			// let dinner = 'pasta';
+			// let sentence = 'Tonight dinner will be ' + dinner;
+
+			// function saySomething(param) {
+			//   console.log(param);
+			// }
+
+			// saySomething(sentence);
+
+			// function add(a, b) {
+			//   return a + b;
+			// }
+
+			// let result = add(5, 7);
+			// console.log(result);
+
+			// let multiply = (a, b) => {
+			//   return a * b
+			// }
+			// console.log(multiply(5,7));
+
+		  </script>
+    </body>
+</html>

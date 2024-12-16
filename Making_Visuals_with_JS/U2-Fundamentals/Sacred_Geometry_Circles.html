@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+    <style>* { margin: 0; padding: 0; } html, body { width: 100%; height: 100%; }</style>
+    <body>
+        <canvas style='position: absolute; left: 0px; top: 0px; z-index: -1'></canvas>
+        
+        <!-- <input type="range" min="7.35" max="7.55" value="7.476" step="0.001" id="slider" style="display: none;"/> -->
+        <input class="slider" type="range" min="0" max="255" value="0" step="1" id="slider" style="/* display: none; */"/>
+        <input class="slider" type="range" min="0" max="255" value="127" step="1" id="slider" style="/* display: none; */"/>
+        <input class="slider" type="range" min="0" max="255" value="255" step="1" id="slider" style="/* display: none; */"/>
+        <input class="slider" type="range" min="0" max="1" value="1" step="0.1" id="slider" style="/* display: none; */"/>
+        <button>Start Loop</button>
+        <script>
+          // Main function. ───────────────────────────────────────────────────────────────────────
+          (async function() {
+            let canvas = document.querySelector('canvas');
+            let context = canvas.getContext('2d');
+            const sliders = document.getElementsByClassName('slider');
+            const red = sliders[0]
+            let redValue = parseInt(red.value)
+
+            const green = sliders[1]
+            let greenValue = parseInt(green.value)
+
+            const blue = sliders[2]
+            let blueValue = parseInt(blue.value)
+
+            const alpha = sliders[3]
+            let alphaValue = parseFloat(alpha.value);
+
+            let button = document.querySelector('button');
+            let circleSize = 70;
+
+            // Draw Function ──────────────────────────────────────────────────────────────────────
+            async function draw() {
+              let width = canvas.width;
+              let height = canvas.height;
+              let circleNumber = width / circleSize + 12;
+              let newXCenter, newYStart;
+
+              context.clearRect(0, 0, width, height);
+              context.rect(0, 0, canvas.width, canvas.height);
+              context.fillStyle = "black";
+              context.fill();
+              context.lineWidth = 1;
+
+              for (i = 0; i <= circleNumber; i++) {
+                context.lineWidth = i * (Math.log(1.618) * 0.2) + 1;
+
+                let bands = (255 / circleNumber);
+                let RED = redValue + i * bands;
+                let GREEN = greenValue - i * bands;
+                let BLUE = blueValue - i * bands;
+
+                context.strokeStyle = `rgba(${RED}, ${GREEN}, ${BLUE}, ${alphaValue})`
+                // context.strokeStyle = `rgba(${0 + i * 5}, ${255 - i * 5}, ${150 - i * 5}, 0.2)`
+                // context.strokeStyle = `rgba(255, 255, 255, 0.3)`
+
+                // newXCenter = (circleSize - circleSize / sliderValue) * i;
+                newXCenter = (circleSize - circleSize / 7.476) * i;
+                newYStart = circleSize / 2 * i;
+
+		await sleep(125);
+                for (j = newYStart - circleSize * i; j < height + circleSize; j += circleSize) {
+                  await sleep(250);
+                  context.beginPath();
+                  context.arc(newXCenter, j, circleSize, 0, Math.PI * 2);
+                  context.stroke();
+                }
+              }
+            }
+
+            // Initialization function. ───────────────────────────────────────────────────────────
+            function initialize() {
+              window.addEventListener('resize', resizeCanvas, false);
+              alpha.addEventListener('input', sliderChange, false);
+              red.addEventListener('input', sliderChange, false);
+              green.addEventListener('input', sliderChange, false);
+              blue.addEventListener('input', sliderChange, false);
+              button.addEventListener('click', loop, false);
+              resizeCanvas();
+            }
+
+            // Resize function. ───────────────────────────────────────────────────────────────────
+            function resizeCanvas() {
+              canvas.width = window.innerWidth;
+              canvas.height = window.innerHeight;
+              draw();
+            }
+
+            // Slider function. ───────────────────────────────────────────────────────────────────
+            function sliderChange(){
+              redValue = red.value;
+              greenValue = green.value;
+              blueValue = blue.value;
+              alphaValue = alpha.value;
+              draw();
+            }
+
+            // sleep Utility function. ────────────────────────────────────────────────────────────
+            function sleep(ms) {
+              return new Promise(resolve => setTimeout(resolve, ms));
+            }
+
+            async function loop() {
+              alphaValue = 1;
+              while (true) {
+                await sleep(1);
+                console.log(alphaValue);
+                alphaValue += parseFloat(0.01);
+                draw();
+                if (alphaValue >= 1) {
+                  alphaValue = 0;
+                }
+              }
+            }
+
+            // Start listening to resize events and draw canvas.
+            initialize();})();
+        </script>
+    </body>
+</html>
